@@ -1,4 +1,4 @@
-import { cart /*as smth*/} from "../data/cart.js";
+import { cart, addToCart /*as smth*/} from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productsHTML = '';
@@ -59,37 +59,18 @@ products.forEach((product) => {
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  let addedMessageTimeoutId;
+function updateCartQuantity () {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity;
+}
 
-  button.addEventListener('click', () => {
-    const {productId} = button.dataset;
-
-    let matchingItem;
-    cart.forEach((item) => {
-      if (productId === item.productId) {
-        matchingItem = item;
-      }
-    });
-    const quantitySelector = document.querySelector(
-      `.js-quantity-selector-${productId}`
-    );
-    const quantity = Number(quantitySelector.value);
-    if (matchingItem) {
-      matchingItem.quantity += quantity;
-    } else {
-      cart.push({
-        productId,
-        quantity
-      });
-    }
-    let cartQuantity = 0;
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
-    document.querySelector('.js-cart-quantity')
-      .innerHTML = cartQuantity;
-    const addedMessage = document.querySelector(
+let addedMessageTimeoutId;
+function addToCartTimeout (productId) {
+  const addedMessage = document.querySelector(
       `.js-added-to-cart-${productId}`
     );
 
@@ -108,6 +89,17 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     // Save the timeoutId so we can stop it later.
     addedMessageTimeoutId = timeoutId;
-    });
+  });
+}
+
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+    const {productId} = button.dataset;
+
+    addToCart(productId);
+    
+    updateCartQuantity();
+
+    addToCartTimeout(productId);
   });
 });
