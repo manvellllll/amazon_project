@@ -26,30 +26,30 @@ export function renderOrderSummary() {
                     </div>
 
                     <div class="cart-item-details-grid">
-                    <img class="product-image"
-                        src="${matchingProduct.image}">
+                        <img class="product-image"
+                            src="${matchingProduct.image}">
 
-                    <div class="cart-item-details">
-                        <div class="product-name">
-                        ${matchingProduct.name}
+                        <div class="cart-item-details">
+                            <div class="product-name">
+                            ${matchingProduct.name}
                         </div>
                         <div class="product-price">
-                        $${formatCurrency(matchingProduct.priceCents)}
+                            ${matchingProduct.getPrice()}   
                         </div>
                         <div class="product-quantity">
-                        <span>
-                            Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
-                        </span>
-                        <span class="update-quantity-link link-primary js-update-quantity" data-product-id="${matchingProduct.id}">
-                            Update
-                        </span>
+                            <span>
+                                Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
+                            </span>
+                            <span class="update-quantity-link link-primary js-update-quantity" data-product-id="${matchingProduct.id}">
+                                Update
+                            </span>
                         <input class="quantity-input js-quantity-input-${matchingProduct.id}">
-                        <span class="save-quantity-link link-primary js-save-quantity" data-product-id="${matchingProduct.id}">
-                            Save
-                        </span>
-                        <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
-                            Delete
-                        </span>
+                            <span class="save-quantity-link link-primary js-save-quantity" data-product-id="${matchingProduct.id}">
+                                Save
+                            </span>
+                            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
+                                Delete
+                            </span>
                         </div>
                     </div>
 
