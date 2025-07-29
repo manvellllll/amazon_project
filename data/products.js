@@ -1,11 +1,11 @@
-import { formatCurrency } from "../js/utils/money.js";
+import {formatCurrency} from '../scripts/utils/money.js';
 
 export function getProduct(productId) {
   let matchingProduct;
 
   products.forEach((product) => {
-    if (productId === product.id) {
-      matchingProduct = product
+    if (product.id === productId) {
+      matchingProduct = product;
     }
   });
 
@@ -28,10 +28,11 @@ class Product {
   }
 
   getStarsUrl() {
-    return `images/ratings/rating-${this.rating.stars * 10}.png`
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
+
   getPrice() {
-    return `$${formatCurrency(this.priceCents)}`
+    return `$${formatCurrency(this.priceCents)}`;
   }
 
   extraInfoHTML() {
@@ -62,6 +63,7 @@ const date = new Date();
 console.log(date);
 console.log(date.toLocaleTimeString());
 */
+
 /*
 console.log(this);
 
@@ -87,6 +89,59 @@ const object3 = {
 object3.method();
 */
 
+export let products = [];
+
+export function loadProductsFetch() {
+  const promise = fetch(
+    'https://supersimplebackend.dev/products'
+  ).then((response) => {
+    return response.json();
+  }).then((productsData) => {
+    products = productsData.map((productDetails) => {
+      if (productDetails.type === 'clothing') {
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+    });
+
+    console.log('load products');
+  }).catch((error) => {
+    console.log('Unexpected error. Please try again later.');
+  });
+
+  return promise;
+}
+/*
+loadProductsFetch().then(() => {
+  console.log('next step');
+});
+*/
+
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if (productDetails.type === 'clothing') {
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+    });
+
+    console.log('load products');
+
+    fun();
+  });
+
+  xhr.addEventListener('error', (error) => {
+    console.log('Unexpected error. Please try again later.');
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+}
+
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -101,9 +156,7 @@ export const products = [
       "socks",
       "sports",
       "apparel"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
+    ]
   },
   {
     id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
@@ -193,9 +246,7 @@ export const products = [
       "hoodies",
       "sweaters",
       "apparel"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
+    ]
   },
   {
     id: "77919bbe-0e56-475b-adde-4f24dfed3a04",
@@ -321,9 +372,7 @@ export const products = [
       "shorts",
       "apparel",
       "mens"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
+    ]
   },
   {
     id: "c2a82c5e-aff4-435f-9975-517cfaba2ece",
@@ -520,9 +569,7 @@ export const products = [
       "pants",
       "apparel",
       "mens"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
+    ]
   },
   {
     id: "1c079479-8586-494f-ab53-219325432536",
@@ -601,9 +648,7 @@ export const products = [
       "jogging",
       "apparel",
       "womens"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
+    ]
   },
   {
     id: "d339adf3-e004-4c20-a120-40e8874c66cb",
@@ -754,9 +799,7 @@ export const products = [
       "hoodies",
       "apparel",
       "mens"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
+    ]
   }
 ].map((productDetails) => {
   if (productDetails.type === 'clothing') {
@@ -764,3 +807,4 @@ export const products = [
   }
   return new Product(productDetails);
 });
+*/
