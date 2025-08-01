@@ -5,16 +5,15 @@ import {loadCart} from '../data/cart.js';
 // import '../data/cart-class.js';
 // import '../data/backend-practice.js';
 
+
+//shortcut code for promises and async returns a promise
 async function loadPage() {
   try {
-    // throw 'error1';
 
     await loadProductsFetch();
 
     const value = await new Promise((resolve, reject) => {
-      // throw 'error2';
       loadCart(() => {
-        // reject('error3');
         resolve('value3');
       });
     });
